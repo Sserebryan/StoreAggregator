@@ -11,6 +11,10 @@ function withProps<T, U extends HTMLElement = HTMLElement>(
   return styledFunction;
 }
 
+const theme = {
+  menuColor: "#43593f"
+};
+
 const {
   default: styled,
   css,

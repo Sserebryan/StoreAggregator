@@ -8,6 +8,12 @@ interface NavProps {
   userActions: IUserAction[];
 }
 
+interface LinkProps {
+  link: string;
+}
+
+const backgroundColor: string = "#43593f";
+
 const StyledNav = withProps(styled.nav)`
     display: flex;
     margin: 0;
@@ -16,10 +22,6 @@ const StyledNav = withProps(styled.nav)`
 
     list-style: none;
 `;
-
-interface LinkProps {
-  link: string;
-}
 
 const StyledNavLink = withProps<LinkProps, HTMLAnchorElement>(
   styled.a.attrs({
@@ -35,7 +37,7 @@ const StyledNavLink = withProps<LinkProps, HTMLAnchorElement>(
     color: white;
     transition: transform 0.2s;
     border-bottom: 5px solid transparent;
-    background-color: #43593f;
+    background-color: ${backgroundColor};
     font-size: 16px;
     padding: 1.2rem 2rem 1rem 2rem;
 
@@ -61,37 +63,21 @@ const StyledNavLink = withProps<LinkProps, HTMLAnchorElement>(
     }
 `;
 
-const StyledLogoLink = StyledNavLink.extend`padding: 0;`;
-
 const StyledLogo = withProps(styled.li)`
     display: flex;
-    & img{
-        width: 200px;
-        margin: 0;
-    }
 `;
 
-const Logo: React.StatelessComponent<any> = props => (
-  <StyledLogo>
-    <StyledLogoLink link="#">
-      <img src="images/icons/logo.svg" alt="Logo" />
-    </StyledLogoLink>
-  </StyledLogo>
-);
+const StyledLogoLink = StyledNavLink.extend`
+  padding: 0;
+  & img {
+    width: 200px;
+  }
+`;
 
 const StyledMenuItem = withProps(styled.li)`
     display: flex;
     flex-direction: column;
 `;
-
-const MenuItem: React.StatelessComponent<IMenu> = props => (
-  <StyledMenuItem>
-    <StyledNavLink link={props.slug}>
-      <img src={"images/icons/" + props.icon} height="40px" />
-      <span>{props.title}</span>
-    </StyledNavLink>
-  </StyledMenuItem>
-);
 
 const StyledSearchItem = withProps<any, HTMLInputElement>(
   styled.input.attrs({
@@ -104,13 +90,11 @@ const StyledSearchItem = withProps<any, HTMLInputElement>(
     outline: 0;
     border: 0;
     width: 100%;
-    background-color: #43593f;
+    background-color: ${backgroundColor};
 `;
 
-const SearchItem: React.StatelessComponent = props => <StyledSearchItem />;
-
 const StyledUserActionItem = withProps(styled.li)`
-    background-color: #43593f;
+    background-color: ${backgroundColor};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,6 +106,25 @@ const StyledUserActionItem = withProps(styled.li)`
         color: white;
     }
 `;
+
+const Logo: React.StatelessComponent<any> = props => (
+  <StyledLogo>
+    <StyledLogoLink link="#">
+      <img src="images/icons/logo.svg" alt="Logo" />
+    </StyledLogoLink>
+  </StyledLogo>
+);
+
+const MenuItem: React.StatelessComponent<IMenu> = props => (
+  <StyledMenuItem>
+    <StyledNavLink link={props.slug}>
+      <img src={"images/icons/" + props.icon} height="40px" />
+      <span>{props.title}</span>
+    </StyledNavLink>
+  </StyledMenuItem>
+);
+
+const SearchItem: React.StatelessComponent = props => <StyledSearchItem />;
 
 const UserActionItem: React.StatelessComponent<IUserAction> = props => (
   <StyledUserActionItem>
