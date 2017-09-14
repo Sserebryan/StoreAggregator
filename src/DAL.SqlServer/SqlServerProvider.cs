@@ -8,8 +8,6 @@ namespace DAL.SqlServer
     {
         public void SetOptions(IConfiguration configuration, DbContextOptionsBuilder dbContextOptionsBuilder)
         {
-            //dbContextOptionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString"));
-           
             dbContextOptionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("DAL"));
         }
     }

@@ -1,11 +1,12 @@
 using System;
-using DAL.Models;
-using DAL.Models.IdentityModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+
 using DAL.DatabaseProvider;
+using DAL.Models;
+using DAL.Models.IdentityModels;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Context
 {
@@ -28,18 +29,28 @@ namespace DAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+            modelBuilder.ApplyConfiguration<Tag>(new TagMap());
+
             modelBuilder.Entity<Tag>()
                 .HasKey(c => c.Id);
 
             modelBuilder.Entity<Tag>()
                 .Property(b => b.Name)
+                .HasMaxLength(16)
                 .IsRequired();
         }
 
         private IConfiguration _configuration { get; set; }
 
         private IDatabaseProvider _databaseProvider { get; set; }
-        
+
+        private class TagMap : IEntityTypeConfiguration<Tag>
+        {
+            public void Configure(EntityTypeBuilder<Tag> builder)
+            {
+                builder.HasKey(c => c.Id);
+            }
+        }
+
     }
 }

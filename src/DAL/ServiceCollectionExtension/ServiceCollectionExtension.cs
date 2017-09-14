@@ -16,8 +16,7 @@ namespace DAL.ServiceCollectionExtension
         public static void AddIdentity(this IServiceCollection services)
         {
             services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<StoreAggregatorContext>()
-                .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<StoreAggregatorContext>();
 
             services.Configure<IdentityOptions>(options =>
             {

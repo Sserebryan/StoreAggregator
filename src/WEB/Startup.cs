@@ -13,6 +13,11 @@ using DAL.Models.IdentityModels;
 using Microsoft.EntityFrameworkCore;
 using DAL.DatabaseProvider;
 using DAL.ServiceCollectionExtension;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using WEB.Extensions;
+using WEB.Providers;
 
 namespace WEB
 {
@@ -35,10 +40,13 @@ namespace WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ITokenProvider, TokenProvider>();
             services.AddTransient<IDatabaseProvider, SqlServerProvider>();
             services.AddEntityFramework();
 
             services.AddIdentity();
+
+            services.AddAuthentication(Configuration);
 
             services.AddMvc();
         }
@@ -46,7 +54,6 @@ namespace WEB
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -55,6 +62,7 @@ namespace WEB
                     HotModuleReplacement = true,
                     ReactHotModuleReplacement = true
                 });
+                app.UseDatabaseErrorPage();
             }
             else
             {
