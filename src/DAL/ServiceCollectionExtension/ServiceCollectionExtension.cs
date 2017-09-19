@@ -16,7 +16,7 @@ namespace DAL.ServiceCollectionExtension
         public static void AddIdentity(this IServiceCollection services)
         {
             services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<StoreAggregatorContext>();
+                .AddEntityFrameworkStores<StoreAggregatorContext>().AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -30,7 +30,7 @@ namespace DAL.ServiceCollectionExtension
 
                 // Lockout settings
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
                 // User settings

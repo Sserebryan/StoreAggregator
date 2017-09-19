@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
@@ -25,6 +25,7 @@
     <ProjectReference Include="..\DAL.DatabaseProvider\DAL.DatabaseProvider.csproj" />
     <ProjectReference Include="..\DAL.SqlServer\DAL.SqlServer.csproj" />
     <ProjectReference Include="..\dal\DAL.csproj" />
+    <ProjectReference Include="..\Emailing\Emailing.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <UserSecretsId>3CEE6F6C-C620-4D78-857E-6603B23564C5</UserSecretsId>

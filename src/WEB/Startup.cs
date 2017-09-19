@@ -16,7 +16,10 @@ using DAL.ServiceCollectionExtension;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Emailing;
+using Microsoft.Extensions.Logging;
 using WEB.Extensions;
+using WEB.Middlewares;
 using WEB.Providers;
 
 namespace WEB
@@ -42,7 +45,9 @@ namespace WEB
         {
             services.AddSingleton<ITokenProvider, TokenProvider>();
             services.AddTransient<IDatabaseProvider, SqlServerProvider>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddEntityFramework();
+            services.Configure<EmailCredential>(Configuration.GetSection("EmailCredential"));
 
             services.AddIdentity();
 
@@ -52,22 +57,26 @@ namespace WEB
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                loggerFactory.AddConsole();
+                //app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true,
                     ReactHotModuleReplacement = true
                 });
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            
+            app.UseErrorHandling();
 
             app.UseStaticFiles();
 

@@ -29,7 +29,7 @@ namespace WEB.Providers
         {
 
             var claims = new Claim[] {
-                new Claim(ClaimTypes.Name, loginViewModel.Email),
+                new Claim(ClaimTypes.Name, loginViewModel.FullName),
                 new Claim(JwtRegisteredClaimNames.Email, loginViewModel.Email)
             };
 
@@ -38,7 +38,7 @@ namespace WEB.Providers
                 audience: "StoreAggregator Client",
                 claims: claims,
                 notBefore: DateTime.Now,
-                expires: DateTime.Now.AddDays(28),
+                expires: DateTime.Now.AddHours(12),
                 signingCredentials: new SigningCredentials(_key, SecurityAlgorithms.HmacSha256)
             );
 
